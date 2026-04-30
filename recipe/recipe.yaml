@@ -1,0 +1,45 @@
+schema_version: 1
+
+context:
+  name: pymatgen-analysis-alloys
+  version: "0.0.9"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/pymatgen_analysis_alloys-${{ version }}.tar.gz
+  sha256: 972f8b902ca55a254301653fbceebc74b9939c03a6fb2a5f7a5ff607ac88b087
+
+build:
+  number: 1
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - pymatgen >=2023.7.17
+    - shapely >=1.8.2
+
+tests:
+  - python:
+      imports:
+        - pymatgen.analysis.alloys
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: A pymatgen add-on library with classes useful for describing alloy (disordered) systems.
+  license: BSD-3-Clause
+  license_file: LICENSE
+  homepage: https://github.com/materialsproject/pymatgen-analysis-alloys
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
